@@ -9,3 +9,7 @@
 *.iml
 
 
+# gui and core folders
+gui/*
+core/*
+extra/*
