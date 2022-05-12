@@ -50,12 +50,12 @@ public class SudokuCSP extends CSP<Variable, Integer> {
 
 	public void addColumnConstraints() {
 		// add column constraints
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
 				int column = i+(j*9);
 				Variable var1 = getVariables().get(column);
-				for (int k = 1; k < size-j; k++) {
-					int row = column + (k*size);
+				for (int k = 1; k < 9-j; k++) {
+					int row = column + (k*9);
 					Variable var2 = getVariables().get(row);
 					addConstraint(new NotEqualConstraint<>(var1, var2));
 					// System.out.println("Column Constraint: i "+ i +" j "+j+" Var1 "+column+", Var2 "+row);
@@ -83,7 +83,7 @@ public class SudokuCSP extends CSP<Variable, Integer> {
 			for (int i = 0; i < blocks.length; i++) {
 				Variable var1 = getVariables().get(block[i]);
 				//iterate through var2
-				for (int j = i; j < blocks.length; j++) {
+				for (int j = i+1; j < blocks.length; j++) {
 					Variable var2 = getVariables().get(block[j]);
 					addConstraint(new NotEqualConstraint<>(var1, var2));
 					//System.out.println("i: "+i+", j: "+j+", Var1: "+block[i]+", Var2: "+block[j]);
