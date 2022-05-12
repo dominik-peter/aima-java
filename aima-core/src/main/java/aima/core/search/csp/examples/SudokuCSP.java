@@ -25,20 +25,30 @@ public class SudokuCSP extends CSP<Variable, Integer> {
 		for (Variable var : getVariables())
 			setDomain(var, positions);
 
+		addRowConstraints();
+		addColumnConstraints();
+		addBlockConstraints();
+
+		addInitialValues(initial_values);
+	}
+
+	public void addRowConstraints() {
 		// add row constraints
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
 				// calculate correct id of first row variable
 				int row = i*9+j;
 				Variable var1 = getVariables().get(row);
-				for (int column = row+1; column < (i*9)+size; column++) {
+				for (int column = row+1; column < (i*9)+9; column++) {
 					Variable var2 = getVariables().get(column);
 					addConstraint(new NotEqualConstraint<>(var1, var2));
 					// System.out.println("Row Constraint: i "+ i +" j "+j+" Var1 "+row+", Var2 "+column);
 				}
 			}
 		}
+	}
 
+	public void addColumnConstraints() {
 		// add column constraints
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
@@ -52,7 +62,9 @@ public class SudokuCSP extends CSP<Variable, Integer> {
 				}
 			}
 		}
+	}
 
+	public void addBlockConstraints() {
 		// add block constraints
 		int[][] blocks = {
 				{0, 1, 2, 9, 10, 11, 18, 19, 20},
@@ -77,10 +89,6 @@ public class SudokuCSP extends CSP<Variable, Integer> {
 					//System.out.println("i: "+i+", j: "+j+", Var1: "+block[i]+", Var2: "+block[j]);
 				}
 			}
-		}
-
-		if (initial_values.length > 0) {
-			this.addInitialValues(initial_values);
 		}
 	}
 
